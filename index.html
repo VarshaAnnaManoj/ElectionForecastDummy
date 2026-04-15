@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kerala Assembly Constituencies</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <div>
+        <h1>Kerala Assembly Constituencies</h1>
+        <p>Search and browse all 140 Kerala Legislative Assembly constituencies.</p>
+      </div>
+    </header>
+
+    <section class="controls">
+      <label for="search">Find a constituency</label>
+      <input id="search" type="search" placeholder="Type to filter constituencies..." autocomplete="off" />
+      <div class="status">
+        <span id="match-count">140 constituencies</span>
+      </div>
+    </section>
+
+    <section class="list-section">
+      <ul id="constituency-list" class="constituency-list" aria-live="polite"></ul>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
