@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Election Forecast - Alpha</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <a href="home.html" class="back-home" title="Back to home">← Back</a>
+      <div>
+        <h1>Election Forecast Alpha</h1>
+        <p>Advanced forecasting with experimental features.</p>
+      </div>
+    </header>
+
+    <section class="controls">
+      <div class="search-control">
+        <label for="search-input">Search District or Constituency</label>
+        <input type="search" id="search-input" placeholder="Search by district or constituency..." />
+      </div>
+      <button id="export-btn">Export Results</button>
+    </section>
+
+    <section class="list-section">
+      <table id="constituency-table" class="constituency-table">
+        <thead>
+          <tr>
+            <th title="Electoral District">District</th>
+            <th>Constituency</th>
+            <th>Winner</th>
+            <th>Margin</th>
+            <th>More Details</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </section>
+
+    <div id="details-modal" class="modal hidden" aria-hidden="true">
+      <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <button id="modal-close-btn" class="modal-close" aria-label="Close details">×</button>
+        <h2 id="modal-title">More details</h2>
+        <p class="modal-subtitle"><span id="modal-constituency"></span>, <span id="modal-district"></span></p>
+        <dl class="details-list">
+          <dt>LDF Candidate</dt>
+          <dd id="modal-ldf"></dd>
+          <dt>UDF Candidate</dt>
+          <dd id="modal-udf"></dd>
+          <dt>NDA Candidate</dt>
+          <dd id="modal-nda"></dd>
+          <dt>Total Voters</dt>
+          <dd id="modal-total-voters"></dd>
+          <dt>Voting %</dt>
+          <dd id="modal-voting-percent"></dd>
+          <dt>Polled Votes</dt>
+          <dd id="modal-polled-votes"></dd>
+        </dl>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

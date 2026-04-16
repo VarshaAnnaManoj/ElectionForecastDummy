@@ -15,7 +15,7 @@ body {
 }
 
 .app-shell {
-  max-width: 960px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 24px;
 }
@@ -27,6 +27,7 @@ body {
   padding: 32px;
   margin-bottom: 24px;
   box-shadow: 0 18px 50px rgba(15, 76, 129, 0.18);
+  position: relative;
 }
 
 .hero h1 {
@@ -41,75 +42,310 @@ body {
   color: rgba(255, 255, 255, 0.9);
 }
 
+.back-home {
+  position: absolute;
+  top: 32px;
+  left: 32px;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.back-home:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
 .controls {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 12px;
   margin-bottom: 24px;
 }
 
-.controls label {
-  font-weight: 700;
+.column-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-#search {
+#toggle-columns-btn {
+  padding: 8px 16px;
+  background: #6b7280;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+#toggle-columns-btn:hover {
+  background: #4b5563;
+}
+
+.column-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.column-options.hidden {
+  display: none;
+}
+
+.column-options label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+#export-btn {
+  padding: 12px 24px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+#export-btn:hover {
+  background: #2563eb;
+}
+
+.search-control {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 420px;
   width: 100%;
-  padding: 14px 16px;
-  font-size: 1rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 14px;
-  background: white;
-  transition: border-color 0.2s ease;
 }
 
-#search:focus {
+.search-control label {
+  font-size: 0.9rem;
+  color: #374151;
+  font-weight: 600;
+}
+
+#search-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: #111827;
+}
+
+#search-input:focus {
   outline: none;
   border-color: #3b82f6;
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
 }
 
-.status {
-  color: #475569;
-  font-weight: 500;
-}
-
-.constituency-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 12px;
-}
-
-.constituency-item {
+.constituency-table {
+  width: 100%;
+  border-collapse: collapse;
   background: white;
-  border-radius: 18px;
-  padding: 18px 20px;
-  border: 1px solid #e2e8f0;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.constituency-item:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
+.constituency-table th,
+.constituency-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.constituency-item strong {
-  display: block;
-  font-size: 1.05rem;
+.constituency-table th {
+  background: #f9fafb;
+  font-weight: 600;
+  color: #374151;
 }
 
-.no-results {
-  padding: 20px;
-  border-radius: 18px;
-  background: #f8fafc;
-  border: 1px dashed #cbd5e1;
+.constituency-table tbody tr:hover {
+  background: #f3f4f6;
+}
+
+.winner-select {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.winner-select label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
+}
+
+.margin-slider {
+  width: 120px;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: #ddd;
+  outline: none;
+  border-radius: 3px;
+}
+
+.margin-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #3b82f6;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.margin-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #3b82f6;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.margin-value {
+  display: inline-block;
+  width: 50px;
   text-align: center;
-  color: #64748b;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151;
 }
 
-@media (min-width: 768px) {
+.details-btn {
+  padding: 6px 12px;
+  background: #10b981;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.details-btn:hover {
+  background: #059669;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.55);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 20;
+}
+
+.modal.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-panel {
+  width: min(100%, 520px);
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 32px 90px rgba(15, 23, 42, 0.18);
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: #e5e7eb;
+  color: #111827;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.modal-subtitle {
+  margin: 8px 0 16px;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.details-list {
+  display: grid;
+  gap: 10px;
+}
+
+.details-list dt {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.details-list dd {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+@media (max-width: 768px) {
+  .app-shell {
+    padding: 16px;
+  }
+
+  .hero {
+    padding: 24px;
+  }
+
+  .constituency-table {
+    font-size: 0.9rem;
+  }
+
+  .constituency-table th,
+  .constituency-table td {
+    padding: 8px 12px;
+  }
+
+  .winner-select {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .margin-input {
+    width: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .constituency-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
   .controls {
-    grid-template-columns: 1fr auto;
-    align-items: end;
+    justify-content: center;
   }
 }
