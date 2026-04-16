@@ -19,7 +19,24 @@ A mobile-friendly web app for forecasting election results. Users can select win
 
 ## Usage
 
-1. Open `index.html` in browser
+### Run locally with FastAPI
+
+1. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+2. Start the FastAPI server:
+   ```bash
+   uvicorn main:app --reload
+   ```
+3. Open the app in your browser:
+   ```
+   http://127.0.0.1:8000
+   ```
+
+### How to use the app
+
+1. Open the app in your browser
 2. Click "Show/Hide Columns" to toggle column visibility
 3. For each constituency, select the winner and adjust the margin slider
 4. Click "Export Results" for CSV download

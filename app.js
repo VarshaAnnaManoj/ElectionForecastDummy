@@ -1,4 +1,6 @@
-const constituencies = [
+let constituencies = [];
+
+const fallbackConstituencies = [
   {
     district: "NORTHLAND",
     constituency: "Frozen Peak",
@@ -115,7 +117,24 @@ const modalTotalVoters = document.getElementById('modal-total-voters');
 const modalVotingPercent = document.getElementById('modal-voting-percent');
 const modalPolledVotes = document.getElementById('modal-polled-votes');
 
-let filteredConstituencies = constituencies.map((entry, index) => ({entry, index}));
+let filteredConstituencies = [];
+
+async function loadConstituencies() {
+  try {
+    const response = await fetch('/api/constituencies');
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    constituencies = await response.json();
+  } catch (error) {
+    console.warn('Failed to load backend data, using fallback dataset.', error);
+    constituencies = fallbackConstituencies;
+  }
+
+  filteredConstituencies = constituencies.map((entry, index) => ({entry, index}));
+  renderTable();
+}
+
 
 function renderTable() {
   tableBody.innerHTML = '';
@@ -230,4 +249,4 @@ function exportResults() {
 
 searchInput.addEventListener('input', applySearchFilter);
 exportBtn.addEventListener('click', exportResults);
-renderTable();
+loadConstituencies();
