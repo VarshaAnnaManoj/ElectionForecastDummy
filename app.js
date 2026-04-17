@@ -121,14 +121,15 @@ let filteredConstituencies = [];
 
 async function loadConstituencies() {
   try {
-    const response = await fetch('/api/constituencies');
+    const response = await fetch('/api/constituencies', { cache: 'no-store' });
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);
     }
     constituencies = await response.json();
   } catch (error) {
-    console.warn('Failed to load backend data, using fallback dataset.', error);
-    constituencies = fallbackConstituencies;
+    console.error('Failed to load backend data.', error);
+    tableBody.innerHTML = '<tr><td colspan="5">Failed to load data from backend API. Please check server/database connection.</td></tr>';
+    return;
   }
 
   filteredConstituencies = constituencies.map((entry, index) => ({entry, index}));

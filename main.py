@@ -1,114 +1,103 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from sqlalchemy import create_engine, text
+from sqlalchemy.exc import SQLAlchemyError
+import os
 
 app = FastAPI(title="Election Forecast API")
 
-constituencies = [
-    {
-        "district": "NORTHLAND",
-        "constituency": "Frozen Peak",
-        "ldf": "Arun Kumar",
-        "udf": "Benjamin B.",
-        "nda": "Charlie C.",
-        "totalVoters": "215,000",
-        "votingPercent": "78.50%",
-        "polledVotes": "168,775"
-    },
-    {
-        "district": "NORTHLAND",
-        "constituency": "River Run",
-        "ldf": "David Deep",
-        "udf": "Edward E.",
-        "nda": "Frank F.",
-        "totalVoters": "198,000",
-        "votingPercent": "82.10%",
-        "polledVotes": "162,558"
-    },
-    {
-        "district": "NORTHLAND",
-        "constituency": "Iron Gate",
-        "ldf": "George G.",
-        "udf": "Harry H.",
-        "nda": "Ian I.",
-        "totalVoters": "205,500",
-        "votingPercent": "75.40%",
-        "polledVotes": "154,947"
-    },
-    {
-        "district": "WESTCOAST",
-        "constituency": "Sandy Shores",
-        "ldf": "Jack Java",
-        "udf": "Kevin K.",
-        "nda": "Liam L.",
-        "totalVoters": "222,000",
-        "votingPercent": "80.80%",
-        "polledVotes": "179,376"
-    },
-    {
-        "district": "WESTCOAST",
-        "constituency": "Ocean View",
-        "ldf": "Mike Macro",
-        "udf": "Noah N.",
-        "nda": "Oscar O.",
-        "totalVoters": "185,000",
-        "votingPercent": "74.20%",
-        "polledVotes": "137,270"
-    },
-    {
-        "district": "HIGHLANDS",
-        "constituency": "Misty Mount",
-        "ldf": "Paul Ping",
-        "udf": "Quinn Q.",
-        "nda": "Ryan R.",
-        "totalVoters": "192,000",
-        "votingPercent": "79.90%",
-        "polledVotes": "153,408"
-    },
-    {
-        "district": "HIGHLANDS",
-        "constituency": "Green Valley",
-        "ldf": "Sam Stack",
-        "udf": "Tom T.",
-        "nda": "Uma U.",
-        "totalVoters": "210,000",
-        "votingPercent": "81.40%",
-        "polledVotes": "170,940"
-    },
-    {
-        "district": "CENTRALIA",
-        "constituency": "Metro Hub",
-        "ldf": "Victor Vector",
-        "udf": "Will W.",
-        "nda": "Xander X.",
-        "totalVoters": "241,000",
-        "votingPercent": "84.80%",
-        "polledVotes": "204,368"
-    },
-    {
-        "district": "CENTRALIA",
-        "constituency": "Cyber City",
-        "ldf": "Yuvraj Yield",
-        "udf": "Zain Z.",
-        "nda": "Abe A.",
-        "totalVoters": "201,000",
-        "votingPercent": "70.00%",
-        "polledVotes": "140,700"
-    },
-    {
-        "district": "SOUTHVALE",
-        "constituency": "Sunset Bay",
-        "ldf": "Bob Binary",
-        "udf": "Chris C.",
-        "nda": "Dan D.",
-        "totalVoters": "177,000",
-        "votingPercent": "73.60%",
-        "polledVotes": "130,272"
-    }
-]
+# Keep DB URL configurable via environment while providing a default.
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql+psycopg2://ec_user:ecuser999$@varshadb.cvws1eblufqr.us-east-2.rds.amazonaws.com:5432/EC_data_analysis",
+)
+
+engine = create_engine(DATABASE_URL, pool_pre_ping=True)
+
+
+def _pick(record, *keys):
+    for key in keys:
+        if key in record and record[key] is not None:
+            return record[key]
+    return ""
+
+
+def _format_number(value):
+    if value is None:
+        return ""
+    if isinstance(value, (int, float)):
+        return f"{int(value):,}"
+
+    as_text = str(value).strip()
+    if not as_text:
+        return ""
+
+    try:
+        numeric = int(float(as_text.replace(",", "")))
+        return f"{numeric:,}"
+    except ValueError:
+        return as_text
+
+
+def _format_percent(value):
+    if value is None:
+        return ""
+
+    if isinstance(value, (int, float)):
+        return f"{float(value):.2f}%"
+
+    as_text = str(value).strip()
+    if not as_text:
+        return ""
+
+    if as_text.endswith("%"):
+        return as_text
+
+    try:
+        return f"{float(as_text):.2f}%"
+    except ValueError:
+        return as_text
 
 @app.get("/api/constituencies")
 def api_constituencies():
-    return constituencies
+    query = text(
+        """
+        SELECT
+            district,
+            constituency,
+            ldf_candidate,
+            udf_candidate,
+            nda_candidate,
+            total_voters,
+            voting_percent,
+            polled_votes
+        FROM constituencies
+        ORDER BY id
+        """
+    )
+
+    try:
+        with engine.connect() as connection:
+            rows = connection.execute(query).mappings().all()
+
+        response = []
+        for row in rows:
+            response.append(
+                {
+                    "district": _pick(row, "district"),
+                    "constituency": _pick(row, "constituency"),
+                    "ldf": _pick(row, "ldf_candidate", "ldf"),
+                    "udf": _pick(row, "udf_candidate", "udf"),
+                    "nda": _pick(row, "nda_candidate", "nda"),
+                    "totalVoters": _format_number(_pick(row, "total_voters", "totalVoters")),
+                    "votingPercent": _format_percent(_pick(row, "voting_percent", "votingPercent")),
+                    "polledVotes": _format_number(_pick(row, "polled_votes", "polledVotes")),
+                }
+            )
+
+        return response
+    except SQLAlchemyError as exc:
+        raise HTTPException(status_code=500, detail=f"Database error: {str(exc)}") from exc
 
 app.mount("/", StaticFiles(directory=".", html=True), name="static")
