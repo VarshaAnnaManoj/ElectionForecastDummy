@@ -531,6 +531,7 @@ function exportResults() {
 function buildResultsPayload() {
   const submitterName = (submitterNameInput?.value || '').trim();
   const phoneDigits = (submitterPhoneLast5Input?.value || '').replace(/\D/g, '');
+  const normalizedPhone = phoneDigits ? Number(phoneDigits) + 100000 : null;
 
   const results = [];
 
@@ -549,7 +550,7 @@ function buildResultsPayload() {
       district: constituency.district || constituency.distAbbr || '',
       constituency: constituency.constituency || '',
       name: submitterName || null,
-      phone_number: phoneDigits ? Number(phoneDigits) : null,
+      phone_number: normalizedPhone,
       winner: String(prediction.winner || '').toUpperCase(),
       margin: Number(prediction.margin || 0),
       ldf_share_percentage: toTwoDecimals(clampPercentage(share.ldf ?? 0)),

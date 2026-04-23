@@ -195,8 +195,8 @@ def save_constituencies_results(payload: ConstituencyResultBatch):
         if not item.name or not str(item.name).strip():
             raise HTTPException(status_code=400, detail=f"Row {index}: name is mandatory")
 
-        if item.phone_number is None or item.phone_number < 10000 or item.phone_number > 99999:
-            raise HTTPException(status_code=400, detail=f"Row {index}: phone_number must be last 5 digits")
+        if item.phone_number is None or item.phone_number < 110000 or item.phone_number > 199999:
+            raise HTTPException(status_code=400, detail=f"Row {index}: phone_number must be last 5 digits + 100000")
 
         winner_value = (item.winner or "").strip().upper()
         if winner_value not in allowed_winners:
@@ -246,5 +246,10 @@ def save_constituencies_results(payload: ConstituencyResultBatch):
         }
     except SQLAlchemyError as exc:
         raise HTTPException(status_code=500, detail=f"Database error: {str(exc)}") from exc
+
+
+@app.get("/")
+def root():
+    return FileResponse("home.html")
 
 app.mount("/", StaticFiles(directory=".", html=True), name="static")

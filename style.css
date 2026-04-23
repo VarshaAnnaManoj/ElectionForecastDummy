@@ -1,8 +1,19 @@
 :root {
   color-scheme: light;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #f4f7fb;
-  color: #111827;
+  background: #f5f2ea;
+  color: #18313a;
+  --surface-bg: #ffffff;
+  --surface-muted: #f7f6f2;
+  --frame-start: #dcebe6;
+  --frame-end: #eef5f2;
+  --accent: #2c6e73;
+  --accent-strong: #23575b;
+  --accent-soft: #dceff0;
+  --accent-soft-2: #edf7f7;
+  --accent-border: #8ebfc3;
+  --text-main: #18313a;
+  --text-muted: #5f7078;
 }
 
 * {
@@ -12,21 +23,22 @@
 body {
   margin: 0;
   min-height: 100vh;
+  background: var(--background, #f5f2ea);
 }
 
 .app-shell {
-  max-width: 1200px;
+  max-width: 1040px;
   margin: 0 auto;
   padding: 24px;
 }
 
 .hero {
-  background: linear-gradient(135deg, #0f4c81 0%, #2f71b1 100%);
+  background: linear-gradient(135deg, var(--frame-start) 0%, var(--frame-end) 100%);
   border-radius: 24px;
-  color: white;
+  color: var(--text-main);
   padding: 32px;
   margin-bottom: 24px;
-  box-shadow: 0 18px 50px rgba(15, 76, 129, 0.18);
+  box-shadow: 0 18px 50px rgba(44, 110, 115, 0.14);
   position: relative;
 }
 
@@ -39,25 +51,33 @@ body {
 .hero p {
   margin: 0;
   max-width: 680px;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(24, 49, 58, 0.86);
 }
 
-.back-home {
-  position: absolute;
-  top: 32px;
-  left: 32px;
-  color: rgba(255, 255, 255, 0.8);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.95rem;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: all 0.2s ease;
+.hero-brand {
+  --brand-height: clamp(52px, 7vw, 72px);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
 }
 
-.back-home:hover {
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
+.hero-logo {
+  height: var(--brand-height);
+  width: auto;
+  display: block;
+  margin: 0;
+}
+
+.hero-logo-caption {
+  margin: 0;
+  font-size: var(--brand-height);
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: rgba(24, 49, 58, 0.94);
+  white-space: nowrap;
 }
 
 .controls {
@@ -101,13 +121,13 @@ body {
 }
 
 .district-chip:hover {
-  border-color: #93c5fd;
-  background: #eff6ff;
+  border-color: var(--accent-border);
+  background: var(--accent-soft-2);
 }
 
 .district-chip.active {
-  background: #1d4ed8;
-  border-color: #1d4ed8;
+  background: var(--accent);
+  border-color: var(--accent);
   color: white;
 }
 
@@ -155,7 +175,7 @@ body {
 
 #export-btn {
   padding: 12px 24px;
-  background: #3b82f6;
+  background: var(--accent);
   color: white;
   border: none;
   border-radius: 8px;
@@ -173,7 +193,7 @@ body {
 
 .bubble-panel,
 .entry-panel {
-  background: white;
+  background: var(--surface-bg);
   border-radius: 16px;
   border: 1px solid #e5e7eb;
   box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
@@ -229,13 +249,13 @@ body {
 
 .constituency-bubble:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.15);
-  border-color: #93c5fd;
+  box-shadow: 0 10px 20px rgba(44, 110, 115, 0.16);
+  border-color: var(--accent-border);
 }
 
 .constituency-bubble.active {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(44, 110, 115, 0.18);
 }
 
 .constituency-bubble.completed {
@@ -263,7 +283,7 @@ body {
 .bubble-status {
   font-size: 0.68rem;
   font-weight: 700;
-  color: #1d4ed8;
+  color: var(--accent);
   letter-spacing: 0.02em;
 }
 
@@ -438,7 +458,7 @@ body {
 .vote-share-total {
   font-size: 0.9rem;
   font-weight: 700;
-  color: #1e3a8a;
+  color: var(--accent-strong);
 }
 
 .vote-share-total.is-error {
@@ -484,8 +504,8 @@ body {
 .vote-value {
   font-size: 0.78rem;
   font-weight: 700;
-  color: #1e3a8a;
-  background: #dbeafe;
+  color: var(--accent-strong);
+  background: var(--accent-soft);
   border-radius: 999px;
   padding: 2px 8px;
   grid-column: 1 / -1;
@@ -508,9 +528,9 @@ body {
 }
 
 .vote-percent-input:focus {
-  outline: 2px solid #93c5fd;
+  outline: 2px solid var(--accent-border);
   outline-offset: 1px;
-  border-color: #60a5fa;
+  border-color: var(--accent);
 }
 
 .vote-percent-input::-webkit-outer-spin-button,
@@ -532,7 +552,7 @@ body {
   appearance: none;
   height: 6px;
   border-radius: 999px;
-  background: linear-gradient(90deg, #fecaca, #fde68a, #bfdbfe, #cbd5e1);
+  background: linear-gradient(90deg, #f4d6c2, #e9ddb0, #c6dde0, #d8ddd7);
 }
 
 .vote-field input[type="range"]:focus {
@@ -604,7 +624,7 @@ body {
   -webkit-appearance: none;
   appearance: none;
   height: 8px;
-  background: linear-gradient(90deg, #bfdbfe, #60a5fa, #2563eb);
+  background: linear-gradient(90deg, #c8dfe1, #78adb2, #2c6e73);
   border-radius: 999px;
   outline: none;
 }
@@ -632,7 +652,7 @@ body {
 #margin-value {
   justify-self: end;
   font-weight: 700;
-  color: #1e3a8a;
+  color: var(--accent-strong);
 }
 
 .entry-actions {
@@ -657,8 +677,8 @@ body {
 
 .primary-btn {
   flex: 1;
-  border: 1px solid #166534;
-  background: #16a34a;
+  border: 1px solid var(--accent-strong);
+  background: var(--accent);
   color: #ffffff;
   border-radius: 8px;
   padding: 10px 12px;
@@ -667,7 +687,7 @@ body {
 }
 
 .primary-btn:hover {
-  background: #15803d;
+  background: var(--accent-strong);
 }
 
 .submitter-section {
@@ -705,9 +725,9 @@ body {
 }
 
 .submitter-field input:focus {
-  outline: 2px solid #93c5fd;
+  outline: 2px solid var(--accent-border);
   outline-offset: 1px;
-  border-color: #60a5fa;
+  border-color: var(--accent);
 }
 
 .submitter-field input.input-error {
@@ -735,7 +755,7 @@ body {
 }
 
 .submit-feedback.is-success {
-  color: #15803d;
+  color: var(--accent-strong);
 }
 
 .empty-state {
@@ -751,7 +771,7 @@ body {
 }
 
 #export-btn:hover {
-  background: #2563eb;
+  background: var(--accent-strong);
 }
 
 .search-control {
@@ -779,8 +799,8 @@ body {
 
 #search-input:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(44, 110, 115, 0.12);
 }
 
 .constituency-table {
@@ -837,7 +857,7 @@ body {
   appearance: none;
   width: 16px;
   height: 16px;
-  background: #3b82f6;
+  background: var(--accent);
   border-radius: 50%;
   cursor: pointer;
 }
@@ -845,7 +865,7 @@ body {
 .margin-slider::-moz-range-thumb {
   width: 16px;
   height: 16px;
-  background: #3b82f6;
+  background: var(--accent);
   border-radius: 50%;
   cursor: pointer;
   border: none;
@@ -862,7 +882,7 @@ body {
 
 .details-btn {
   padding: 6px 12px;
-  background: #10b981;
+  background: var(--accent);
   color: white;
   border: none;
   border-radius: 4px;
@@ -873,7 +893,7 @@ body {
 }
 
 .details-btn:hover {
-  background: #059669;
+  background: var(--accent-strong);
 }
 
 .modal {
@@ -947,6 +967,10 @@ body {
 
   .hero {
     padding: 24px;
+  }
+
+  .hero-brand {
+    --brand-height: clamp(42px, 12vw, 56px);
   }
 
   .controls {
