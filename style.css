@@ -236,9 +236,9 @@ body {
 
 .constituency-bubble {
   border: 1px solid #dbe4ef;
-  border-radius: 999px;
+  border-radius: 18px;
   background: radial-gradient(circle at 30% 20%, #ffffff 5%, #eef4ff 80%);
-  aspect-ratio: 1 / 1;
+  min-height: 62px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -460,6 +460,33 @@ body {
 
 .prediction-form > * {
   min-width: 0;
+}
+
+.prediction-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.prediction-tab-btn {
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  color: #334155;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.prediction-tab-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+.prediction-tab-panel {
+  display: grid;
+  gap: 8px;
 }
 
 .winner-group {
@@ -866,7 +893,7 @@ body {
 }
 
 .submitter-field input {
-  width: 100%;
+  width: 88%;
   min-width: 0;
   border: 1px solid #cbd5e1;
   border-radius: 7px;
@@ -874,6 +901,7 @@ body {
   font-size: 0.82rem;
   color: #0f172a;
   background: #ffffff;
+  justify-self: start;
 }
 
 .submitter-field input:focus {
@@ -1144,19 +1172,21 @@ body {
   }
 
   .bubble-panel {
-    max-height: 40vh;
+    max-height: none;
+    overflow: visible;
   }
 
   .bubble-grid {
-    max-height: calc(40vh - 90px);
+    max-height: none;
+    overflow-y: visible;
     grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
   }
 
   .entry-panel {
-    position: sticky;
-    top: 8px;
-    max-height: 52vh;
-    overflow-y: auto;
+    position: static;
+    top: auto;
+    max-height: none;
+    overflow-y: visible;
   }
 }
 

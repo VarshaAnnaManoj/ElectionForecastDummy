@@ -69,6 +69,8 @@ const selectionCount = document.getElementById('selection-count');
 const entryTitle = document.getElementById('entry-title');
 const entrySubtitle = document.getElementById('entry-subtitle');
 const predictionForm = document.getElementById('prediction-form');
+const predictionTabButtons = document.querySelectorAll('.prediction-tab-btn');
+const predictionTabPanels = document.querySelectorAll('.prediction-tab-panel');
 const winnerInputs = document.querySelectorAll('input[name="winner"]');
 const marginSlider = document.getElementById('margin-slider');
 const marginValue = document.getElementById('margin-value');
@@ -160,6 +162,25 @@ function getActivePolledVoteCount() {
     return 0;
   }
   return parseCount(constituencies[activeIndex].polledVotes);
+}
+
+function setPredictionTab(tabKey) {
+  if (!predictionTabButtons.length || !predictionTabPanels.length) {
+    return;
+  }
+
+  const targetTab = tabKey === 'vote-share' ? 'vote-share' : 'winner';
+
+  predictionTabButtons.forEach((button) => {
+    const isActive = button.dataset.tab === targetTab;
+    button.classList.toggle('active', isActive);
+    button.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
+
+  predictionTabPanels.forEach((panel) => {
+    const isActive = panel.dataset.tab === targetTab;
+    panel.classList.toggle('hidden', !isActive);
+  });
 }
 
 function readVoteSharesFromInputs() {
@@ -415,6 +436,7 @@ function selectConstituency(index) {
   entrySubtitle.textContent = '';
   predictionForm.classList.remove('hidden');
   constituencyInfo.classList.remove('hidden');
+  setPredictionTab('winner');
 
   // Reset the panel to the default collapsed state on each constituency click.
   entryAccordions.forEach((section) => {
@@ -509,6 +531,7 @@ function clearActiveSelection() {
   entrySubtitle.textContent = 'Click any bubble to enter details.';
   predictionForm.classList.add('hidden');
   constituencyInfo.classList.add('hidden');
+  setPredictionTab('winner');
 
   winnerInputs.forEach((input) => {
     input.checked = false;
@@ -682,6 +705,12 @@ districtFilterButtons.addEventListener('click', (event) => {
 
   clearActiveSelection();
   applySearchFilter();
+});
+
+predictionTabButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    setPredictionTab(button.dataset.tab || 'winner');
+  });
 });
 
 winnerInputs.forEach((input) => {

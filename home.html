@@ -25,9 +25,9 @@
     </section>
 
     <section class="board-layout">
-      <section class="bubble-panel" aria-label="Constituency board">
+      <section class="bubble-panel" aria-label="Constituencies">
         <div class="board-head">
-          <h2>Constituency Board</h2>
+          <h2>Constituencies</h2>
           <p id="selection-count">0 selected</p>
         </div>
         <div id="bubble-grid" class="bubble-grid"></div>
@@ -72,56 +72,65 @@
         </div>
 
         <form id="prediction-form" class="prediction-form hidden">
-          <fieldset class="winner-group">
-            <legend>Predicted Winner <span class="required-mark" aria-hidden="true">*</span></legend>
-            <label><input type="radio" name="winner" value="ldf"> LDF</label>
-            <label><input type="radio" name="winner" value="udf"> UDF</label>
-            <label><input type="radio" name="winner" value="nda"> NDA</label>
-          </fieldset>
-
-          <div class="margin-group">
-            <label for="margin-slider">Winning Margin <span class="required-mark" aria-hidden="true">*</span></label>
-            <output id="margin-value" for="margin-slider">0</output>
-            <input id="margin-slider" type="range" min="0" max="75000" value="0" step="100" />
+          <div class="prediction-tabs" role="tablist" aria-label="Prediction input tabs">
+            <button type="button" class="prediction-tab-btn active" data-tab="winner" role="tab" aria-selected="true">Winner</button>
+            <button type="button" class="prediction-tab-btn" data-tab="vote-share" role="tab" aria-selected="false">Vote Share</button>
           </div>
 
-          <details class="vote-share-section vote-share-accordion" aria-label="Vote share slider inputs">
-            <summary class="vote-share-summary">
-              <span class="vote-share-title">Please Enter Vote Share% &#128073;</span>
-              <span id="vote-share-total" class="vote-share-total">0%</span>
-            </summary>
+          <section class="prediction-tab-panel" data-tab="winner">
+            <fieldset class="winner-group">
+              <legend>Predicted Winner <span class="required-mark" aria-hidden="true">*</span></legend>
+              <label><input type="radio" name="winner" value="ldf"> LDF</label>
+              <label><input type="radio" name="winner" value="udf"> UDF</label>
+              <label><input type="radio" name="winner" value="nda"> NDA</label>
+            </fieldset>
 
-            <div class="vote-share-layout">
-              <div class="vote-share-inputs">
-                <label class="vote-field vote-range-field" for="vote-ldf">
-                  <span class="vote-party">LDF</span>
-                  <input id="vote-ldf-edit" class="vote-percent-input" type="number" min="0" max="100" step="0.01" inputmode="decimal" value="0" aria-label="LDF percentage" />
-                  <output id="vote-ldf-value" class="vote-value" for="vote-ldf">0% | 0 votes</output>
-                  <input id="vote-ldf" type="range" min="0" max="100" step="0.01" value="0" />
-                </label>
-                <label class="vote-field vote-range-field" for="vote-udf">
-                  <span class="vote-party">UDF</span>
-                  <input id="vote-udf-edit" class="vote-percent-input" type="number" min="0" max="100" step="0.01" inputmode="decimal" value="0" aria-label="UDF percentage" />
-                  <output id="vote-udf-value" class="vote-value" for="vote-udf">0% | 0 votes</output>
-                  <input id="vote-udf" type="range" min="0" max="100" step="0.01" value="0" />
-                </label>
-                <label class="vote-field vote-range-field" for="vote-nda">
-                  <span class="vote-party">NDA</span>
-                  <input id="vote-nda-edit" class="vote-percent-input" type="number" min="0" max="100" step="0.01" inputmode="decimal" value="0" aria-label="NDA percentage" />
-                  <output id="vote-nda-value" class="vote-value" for="vote-nda">0% | 0 votes</output>
-                  <input id="vote-nda" type="range" min="0" max="100" step="0.01" value="0" />
-                </label>
-                <label class="vote-field vote-range-field" for="vote-others">
-                  <span class="vote-party">Others</span>
-                  <input id="vote-others-edit" class="vote-percent-input" type="number" min="0" max="100" step="0.01" inputmode="decimal" value="100" aria-label="Others percentage" />
-                  <output id="vote-others-value" class="vote-value" for="vote-others">100% | 0 votes</output>
-                  <input id="vote-others" type="range" min="0" max="100" step="0.01" value="100" />
-                </label>
-              </div>
+            <div class="margin-group">
+              <label for="margin-slider">Winning Margin <span class="required-mark" aria-hidden="true">*</span></label>
+              <output id="margin-value" for="margin-slider">0</output>
+              <input id="margin-slider" type="range" min="0" max="75000" value="0" step="100" />
             </div>
+          </section>
 
-            <p id="vote-share-status" class="vote-share-status">Enter vote shares totalling 100%</p>
-          </details>
+          <section class="prediction-tab-panel hidden" data-tab="vote-share">
+            <section class="vote-share-section" aria-label="Vote share slider inputs">
+              <div class="vote-share-header">
+                <span class="vote-share-title">Please Enter Vote Share% &#128073;</span>
+                <span id="vote-share-total" class="vote-share-total">0%</span>
+              </div>
+
+              <div class="vote-share-layout">
+                <div class="vote-share-inputs">
+                  <label class="vote-field vote-range-field" for="vote-ldf">
+                    <span class="vote-party">LDF</span>
+                    <input id="vote-ldf-edit" class="vote-percent-input" type="number" min="0" max="100" step="0.01" inputmode="decimal" value="0" aria-label="LDF percentage" />
+                    <output id="vote-ldf-value" class="vote-value" for="vote-ldf">0% | 0 votes</output>
+                    <input id="vote-ldf" type="range" min="0" max="100" step="0.01" value="0" />
+                  </label>
+                  <label class="vote-field vote-range-field" for="vote-udf">
+                    <span class="vote-party">UDF</span>
+                    <input id="vote-udf-edit" class="vote-percent-input" type="number" min="0" max="100" step="0.01" inputmode="decimal" value="0" aria-label="UDF percentage" />
+                    <output id="vote-udf-value" class="vote-value" for="vote-udf">0% | 0 votes</output>
+                    <input id="vote-udf" type="range" min="0" max="100" step="0.01" value="0" />
+                  </label>
+                  <label class="vote-field vote-range-field" for="vote-nda">
+                    <span class="vote-party">NDA</span>
+                    <input id="vote-nda-edit" class="vote-percent-input" type="number" min="0" max="100" step="0.01" inputmode="decimal" value="0" aria-label="NDA percentage" />
+                    <output id="vote-nda-value" class="vote-value" for="vote-nda">0% | 0 votes</output>
+                    <input id="vote-nda" type="range" min="0" max="100" step="0.01" value="0" />
+                  </label>
+                  <label class="vote-field vote-range-field" for="vote-others">
+                    <span class="vote-party">Others</span>
+                    <input id="vote-others-edit" class="vote-percent-input" type="number" min="0" max="100" step="0.01" inputmode="decimal" value="100" aria-label="Others percentage" />
+                    <output id="vote-others-value" class="vote-value" for="vote-others">100% | 0 votes</output>
+                    <input id="vote-others" type="range" min="0" max="100" step="0.01" value="100" />
+                  </label>
+                </div>
+              </div>
+
+              <p id="vote-share-status" class="vote-share-status">Enter vote shares totalling 100%</p>
+            </section>
+          </section>
 
           <section class="submitter-section" aria-label="Submitter details">
             <div class="submitter-grid">
