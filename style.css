@@ -310,6 +310,29 @@ body {
   font-size: 1.2rem;
 }
 
+.panel-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.details-toggle-btn {
+  border: 1px solid #8ebfc3;
+  background: #dceff0;
+  color: #1f4f54;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.details-toggle-btn:hover {
+  background: #c6e4e6;
+}
+
 .panel-header p {
   margin: 4px 0 0;
   color: #6b7280;
@@ -495,7 +518,7 @@ body {
   padding: 8px 10px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 14px;
   flex-wrap: nowrap;
   overflow-x: auto;
 }
@@ -897,8 +920,8 @@ body {
   min-width: 0;
   border: 1px solid #cbd5e1;
   border-radius: 7px;
-  padding: 5px 9px;
-  font-size: 0.82rem;
+  padding: 3px 8px;
+  font-size: 0.8rem;
   color: #0f172a;
   background: #ffffff;
   justify-self: start;
@@ -916,6 +939,7 @@ body {
 }
 
 .field-error {
+  grid-column: 1 / -1;
   min-height: 14px;
   font-size: 0.72rem;
   font-weight: 700;
@@ -1195,12 +1219,9 @@ body {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .entry-actions {
-    flex-direction: column;
-  }
-
   .submitter-grid {
     grid-template-columns: 1fr;
+    gap: 6px;
   }
 
   .vote-share-layout {

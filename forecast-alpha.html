@@ -37,7 +37,10 @@
 
       <aside id="entry-panel" class="entry-panel" aria-live="polite">
         <div class="panel-header">
-          <h2 id="entry-title">Select a constituency</h2>
+          <div class="panel-title-row">
+            <h2 id="entry-title">Select a constituency</h2>
+            <button id="details-toggle-btn" type="button" class="details-toggle-btn" aria-expanded="false" title="Show candidates and voting details">+ Details</button>
+          </div>
           <p id="entry-subtitle">Click any bubble to enter details.</p>
         </div>
 
@@ -73,22 +76,22 @@
 
         <form id="prediction-form" class="prediction-form hidden">
           <div class="prediction-tabs" role="tablist" aria-label="Prediction input tabs">
-            <button type="button" class="prediction-tab-btn active" data-tab="winner" role="tab" aria-selected="true">Winner</button>
-            <button type="button" class="prediction-tab-btn" data-tab="vote-share" role="tab" aria-selected="false">Vote Share</button>
+            <button type="button" class="prediction-tab-btn active" data-tab="winner" role="tab" aria-selected="true" title="Enter winner and margin">Winner</button>
+            <button type="button" class="prediction-tab-btn" data-tab="vote-share" role="tab" aria-selected="false" title="Enter vote share percentages">Vote Share</button>
           </div>
 
           <section class="prediction-tab-panel" data-tab="winner">
             <fieldset class="winner-group">
               <legend>Predicted Winner <span class="required-mark" aria-hidden="true">*</span></legend>
-              <label><input type="radio" name="winner" value="ldf"> LDF</label>
-              <label><input type="radio" name="winner" value="udf"> UDF</label>
-              <label><input type="radio" name="winner" value="nda"> NDA</label>
+              <label><input type="radio" name="winner" value="ldf" title="Set predicted winner as LDF"> LDF</label>
+              <label><input type="radio" name="winner" value="udf" title="Set predicted winner as UDF"> UDF</label>
+              <label><input type="radio" name="winner" value="nda" title="Set predicted winner as NDA"> NDA</label>
             </fieldset>
 
             <div class="margin-group">
               <label for="margin-slider">Winning Margin <span class="required-mark" aria-hidden="true">*</span></label>
               <output id="margin-value" for="margin-slider">0</output>
-              <input id="margin-slider" type="range" min="0" max="75000" value="0" step="100" />
+              <input id="margin-slider" type="range" min="0" max="75000" value="0" step="100" title="Adjust winning margin" />
             </div>
           </section>
 
@@ -135,13 +138,11 @@
           <section class="submitter-section" aria-label="Submitter details">
             <div class="submitter-grid">
               <label class="submitter-field" for="submitter-name">
-                <span>Name <span class="required-mark" aria-hidden="true">*</span></span>
-                <input id="submitter-name" type="text" maxlength="100" placeholder="Enter your name" />
+                <input id="submitter-name" type="text" maxlength="100" placeholder="Name" aria-label="Name" title="Enter your name" />
                 <span id="submitter-name-error" class="field-error" aria-live="polite"></span>
               </label>
               <label class="submitter-field" for="submitter-phone-last5">
-                <span>Phone Last 5 Digits <span class="required-mark" aria-hidden="true">*</span></span>
-                <input id="submitter-phone-last5" type="text" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" placeholder="e.g. 12345" />
+                <input id="submitter-phone-last5" type="text" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" placeholder="Last 5# of &#128222;" aria-label="Last 5 digits of phone" title="Enter last 5 digits of your phone" />
                 <span id="submitter-phone-error" class="field-error" aria-live="polite"></span>
               </label>
             </div>
@@ -150,8 +151,8 @@
           <p id="submit-form-feedback" class="submit-feedback" aria-live="polite"></p>
 
           <div class="entry-actions">
-            <button id="clear-prediction-btn" type="button" class="secondary-btn">Clear</button>
-            <button id="submit-predictions-btn" type="button" class="primary-btn">Submit</button>
+            <button id="clear-prediction-btn" type="button" class="secondary-btn" title="Clear current constituency inputs">Clear</button>
+            <button id="submit-predictions-btn" type="button" class="primary-btn" title="Submit all selected predictions">Submit</button>
           </div>
         </form>
       </aside>

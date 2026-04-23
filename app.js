@@ -68,6 +68,7 @@ const districtFilterButtons = document.getElementById('district-filter-buttons')
 const selectionCount = document.getElementById('selection-count');
 const entryTitle = document.getElementById('entry-title');
 const entrySubtitle = document.getElementById('entry-subtitle');
+const detailsToggleBtn = document.getElementById('details-toggle-btn');
 const predictionForm = document.getElementById('prediction-form');
 const predictionTabButtons = document.querySelectorAll('.prediction-tab-btn');
 const predictionTabPanels = document.querySelectorAll('.prediction-tab-panel');
@@ -180,6 +181,21 @@ function setPredictionTab(tabKey) {
   predictionTabPanels.forEach((panel) => {
     const isActive = panel.dataset.tab === targetTab;
     panel.classList.toggle('hidden', !isActive);
+  });
+}
+
+function setDetailsExpanded(expanded) {
+  if (!constituencyInfo || !detailsToggleBtn) {
+    return;
+  }
+
+  constituencyInfo.classList.toggle('hidden', !expanded);
+  detailsToggleBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+  detailsToggleBtn.textContent = expanded ? '- Details' : '+ Details';
+
+  // Expand/collapse details accordions together so users can quickly view key info.
+  document.querySelectorAll('#constituency-info details.info-accordion').forEach((section) => {
+    section.open = expanded;
   });
 }
 
@@ -435,7 +451,7 @@ function selectConstituency(index) {
   entryTitle.textContent = `${constituency.constituency}, ${constituency.distAbbr || constituency.district}`;
   entrySubtitle.textContent = '';
   predictionForm.classList.remove('hidden');
-  constituencyInfo.classList.remove('hidden');
+  setDetailsExpanded(false);
   setPredictionTab('winner');
 
   // Reset the panel to the default collapsed state on each constituency click.
@@ -530,7 +546,7 @@ function clearActiveSelection() {
   entryTitle.textContent = 'Select a constituency';
   entrySubtitle.textContent = 'Click any bubble to enter details.';
   predictionForm.classList.add('hidden');
-  constituencyInfo.classList.add('hidden');
+  setDetailsExpanded(false);
   setPredictionTab('winner');
 
   winnerInputs.forEach((input) => {
@@ -711,6 +727,11 @@ predictionTabButtons.forEach((button) => {
   button.addEventListener('click', () => {
     setPredictionTab(button.dataset.tab || 'winner');
   });
+});
+
+detailsToggleBtn?.addEventListener('click', () => {
+  const isExpanded = detailsToggleBtn.getAttribute('aria-expanded') === 'true';
+  setDetailsExpanded(!isExpanded);
 });
 
 winnerInputs.forEach((input) => {
