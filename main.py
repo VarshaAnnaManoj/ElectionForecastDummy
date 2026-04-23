@@ -219,6 +219,7 @@ def save_constituencies_results(payload: ConstituencyResultBatch):
             udf_share_percentage,
             nda_share_percentage,
             other_share_percentage,
+            created_at,
             updated_at
         ) VALUES (
             :district,
@@ -231,6 +232,7 @@ def save_constituencies_results(payload: ConstituencyResultBatch):
             :udf_share_percentage,
             :nda_share_percentage,
             :other_share_percentage,
+            CURRENT_TIMESTAMP,
             CURRENT_TIMESTAMP
         )
         """
