@@ -55,7 +55,7 @@ body {
 }
 
 .hero-brand {
-  --brand-height: clamp(52px, 7vw, 72px);
+  --brand-height: clamp(32px, 4.5vw, 44px);
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -970,7 +970,7 @@ body {
   }
 
   .hero-brand {
-    --brand-height: clamp(42px, 12vw, 56px);
+    --brand-height: clamp(24px, 8vw, 34px);
   }
 
   .controls {
