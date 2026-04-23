@@ -700,8 +700,6 @@ async function submitPredictions() {
 
     setSubmitFeedback(`Submitted successfully. Inserted ${payload.inserted ?? results.length} records.`, 'success');
     predictions.clear();
-    submitterNameInput.value = '';
-    submitterPhoneLast5Input.value = '';
     clearActiveSelection();
   } catch (error) {
     setSubmitFeedback(`Submit failed: ${error.message}`, 'error');
