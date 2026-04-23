@@ -335,6 +335,10 @@ async function loadConstituencies() {
   renderDistrictFilterButtons();
   updateSelectionCount();
   renderBubbles();
+
+  if (filteredConstituencies.length) {
+    selectConstituency(filteredConstituencies[0].index);
+  }
 }
 
 function districtToken(entry) {
@@ -487,6 +491,10 @@ function applySearchFilter() {
       return !selectedDistrictAbbr || districtToken(entry) === selectedDistrictAbbr;
     });
   renderBubbles();
+
+  if (filteredConstituencies.length) {
+    selectConstituency(filteredConstituencies[0].index);
+  }
 }
 
 function closeDetails() {
