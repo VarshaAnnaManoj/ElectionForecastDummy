@@ -22,7 +22,7 @@ class ConstituencyResultItem(BaseModel):
     district: str
     constituency: str
     name: Optional[str] = None
-    phone_number: Optional[int] = None
+    phone_number: Optional[str] = None
     winner: Optional[str] = None
     margin: Optional[int] = None
     ldf_share_percentage: Optional[float] = None
@@ -195,8 +195,9 @@ def save_constituencies_results(payload: ConstituencyResultBatch):
         if not item.name or not str(item.name).strip():
             raise HTTPException(status_code=400, detail=f"Row {index}: name is mandatory")
 
-        if item.phone_number is None or item.phone_number < 110000 or item.phone_number > 199999:
-            raise HTTPException(status_code=400, detail=f"Row {index}: phone_number must be last 5 digits + 100000")
+        raw_phone = str(item.phone_number or "").strip()
+        if not raw_phone.isdigit() or len(raw_phone) != 5:
+            raise HTTPException(status_code=400, detail=f"Row {index}: phone_number must be exactly 5 digits")
 
         winner_value = (item.winner or "").strip().upper()
         if winner_value not in allowed_winners:
@@ -236,7 +237,11 @@ def save_constituencies_results(payload: ConstituencyResultBatch):
     )
 
     try:
-        rows = [item.model_dump() for item in payload.results]
+        rows = []
+        for item in payload.results:
+            record = item.model_dump()
+            record["phone_number"] = int(record["phone_number"]) + 100000
+            rows.append(record)
         with engine.begin() as connection:
             connection.execute(insert_query, rows)
 

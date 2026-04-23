@@ -14,6 +14,7 @@
           <p class="hero-logo-caption">Election Forecast</p>
         </div>
         <p>Select winners and margins for each constituency.</p>
+        <a href="all-constituency.html" class="allconst-open-link">Open AllConstituency</a>
       </div>
     </header>
 
@@ -40,7 +41,8 @@
         </div>
 
         <div id="constituency-info" class="constituency-info hidden">
-          <div class="info-box">
+          <details class="info-box info-accordion" open>
+            <summary class="info-accordion-summary">Candidates</summary>
             <div class="candidate-grid">
               <span class="candidate-party">LDF</span>
               <span class="candidate-party">UDF</span>
@@ -49,9 +51,10 @@
               <span id="info-udf" class="candidate-name">—</span>
               <span id="info-nda" class="candidate-name">—</span>
             </div>
-          </div>
+          </details>
 
-          <div class="info-box">
+          <details class="info-box info-accordion" open>
+            <summary class="info-accordion-summary">Voting Details</summary>
             <div class="info-grid">
               <div class="info-cell">
                 <span class="info-label">Total Voters</span>
@@ -66,7 +69,7 @@
                 <span id="info-polled-votes" class="info-value">—</span>
               </div>
             </div>
-          </div>
+          </details>
         </div>
 
         <form id="prediction-form" class="prediction-form hidden">
@@ -83,11 +86,11 @@
             <output id="margin-value" for="margin-slider">0</output>
           </div>
 
-          <section class="vote-share-section" aria-label="Vote share slider inputs">
-            <div class="vote-share-header">
-              <span class="vote-share-title">Vote Share %</span>
+          <details class="vote-share-section vote-share-accordion" open aria-label="Vote share slider inputs">
+            <summary class="vote-share-summary">
+              <span class="vote-share-title">Please Enter Vote Share% &#128073;</span>
               <span id="vote-share-total" class="vote-share-total">0%</span>
-            </div>
+            </summary>
 
             <div class="vote-share-layout">
               <div class="vote-share-inputs">
@@ -119,7 +122,7 @@
             </div>
 
             <p id="vote-share-status" class="vote-share-status">Enter vote shares totalling 100%</p>
-          </section>
+          </details>
 
           <section class="submitter-section" aria-label="Submitter details">
             <div class="submitter-grid">

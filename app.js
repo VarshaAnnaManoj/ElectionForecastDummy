@@ -95,6 +95,7 @@ const voteOthersValue = document.getElementById('vote-others-value');
 const voteShareTotal = document.getElementById('vote-share-total');
 const voteShareStatus = document.getElementById('vote-share-status');
 const constituencyInfo = document.getElementById('constituency-info');
+const entryAccordions = document.querySelectorAll('#entry-panel details.info-accordion, #entry-panel details.vote-share-accordion');
 const infoLdf = document.getElementById('info-ldf');
 const infoUdf = document.getElementById('info-udf');
 const infoNda = document.getElementById('info-nda');
@@ -389,6 +390,10 @@ function renderBubbles() {
     `;
 
     bubble.addEventListener('click', () => selectConstituency(index));
+    bubble.addEventListener('touchend', (event) => {
+      event.preventDefault();
+      selectConstituency(index);
+    }, { passive: false });
     bubbleGrid.appendChild(bubble);
   });
 }
@@ -402,10 +407,15 @@ function selectConstituency(index) {
     voteShare: defaultVoteShare()
   };
 
-  entryTitle.textContent = constituency.constituency;
-  entrySubtitle.textContent = `${constituency.distAbbr || constituency.district} district`;
+  entryTitle.textContent = `${constituency.constituency}, ${constituency.distAbbr || constituency.district}`;
+  entrySubtitle.textContent = '';
   predictionForm.classList.remove('hidden');
   constituencyInfo.classList.remove('hidden');
+
+  // Reset the panel to the default collapsed state on each constituency click.
+  entryAccordions.forEach((section) => {
+    section.open = false;
+  });
 
   infoLdf.textContent = constituency.ldf || '—';
   infoUdf.textContent = constituency.udf || '—';
@@ -531,7 +541,6 @@ function exportResults() {
 function buildResultsPayload() {
   const submitterName = (submitterNameInput?.value || '').trim();
   const phoneDigits = (submitterPhoneLast5Input?.value || '').replace(/\D/g, '');
-  const normalizedPhone = phoneDigits ? Number(phoneDigits) + 100000 : null;
 
   const results = [];
 
@@ -550,7 +559,7 @@ function buildResultsPayload() {
       district: constituency.district || constituency.distAbbr || '',
       constituency: constituency.constituency || '',
       name: submitterName || null,
-      phone_number: normalizedPhone,
+      phone_number: phoneDigits || null,
       winner: String(prediction.winner || '').toUpperCase(),
       margin: Number(prediction.margin || 0),
       ldf_share_percentage: toTwoDecimals(clampPercentage(share.ldf ?? 0)),
